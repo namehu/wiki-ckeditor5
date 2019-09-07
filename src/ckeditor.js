@@ -124,7 +124,7 @@ DecoupledEditor.defaultConfig = {
 			'|',
 			'link',
 			'blockquote',
-			'insetAsset',
+			'insertAsset',
 			'insertTable',
 			'mediaEmbed',
 			'|',
