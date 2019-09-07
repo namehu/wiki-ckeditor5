@@ -33,9 +33,39 @@ import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefrom
 import RemoveFormat from '@ckeditor/ckeditor5-remove-format/src/removeformat';
 import Table from '@ckeditor/ckeditor5-table/src/table';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
+import TodoList from '@ckeditor/ckeditor5-list/src/todolist';
 import WordCount from '@ckeditor/ckeditor5-word-count/src/wordcount';
 
+import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
+import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
+
+import imageIcon from '@ckeditor/ckeditor5-core/theme/icons/image.svg';
+
 export default class DecoupledEditor extends DecoupledEditorBase {}
+
+/* global WIKI */
+
+class InsertAsset extends Plugin {
+	init() {
+		const editor = this.editor;
+
+		editor.ui.componentFactory.add( 'insertAsset', locale => {
+			const view = new ButtonView( locale );
+
+			view.set( {
+				label: 'Insert Assets',
+				icon: imageIcon,
+				tooltip: true
+			} );
+
+			view.on( 'execute', () => {
+				WIKI.$store.set( 'editor/activeModal', 'editorModalMedia' );
+			} );
+
+			return view;
+		} );
+	}
+}
 
 // Plugins to include in the build.
 DecoupledEditor.builtinPlugins = [
@@ -58,6 +88,7 @@ DecoupledEditor.builtinPlugins = [
 	ImageStyle,
 	ImageToolbar,
 	ImageUpload,
+	InsertAsset,
 	Link,
 	List,
 	MediaEmbed,
@@ -66,6 +97,7 @@ DecoupledEditor.builtinPlugins = [
 	RemoveFormat,
 	Table,
 	TableToolbar,
+	TodoList,
 	WordCount
 ];
 
@@ -88,10 +120,11 @@ DecoupledEditor.defaultConfig = {
 			'|',
 			'numberedList',
 			'bulletedList',
+			'todoList',
 			'|',
 			'link',
 			'blockquote',
-			'imageUpload',
+			'insetAsset',
 			'insertTable',
 			'mediaEmbed',
 			'|',
