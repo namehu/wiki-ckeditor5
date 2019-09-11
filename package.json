@@ -83,5 +83,8 @@
   "eslintIgnore": [
     "build/**",
     "packages/**"
-  ]
+  ],
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com/"
+  }
 }
