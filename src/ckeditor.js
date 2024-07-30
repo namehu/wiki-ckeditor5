@@ -60,8 +60,9 @@ import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
 
 import imageIcon from '@ckeditor/ckeditor5-core/theme/icons/image.svg';
 import linkToPageIcon from './icons/link-to-page.svg';
+import imageOss from './icons/image-filter-drama.svg'
 
-export default class DecoupledEditor extends DecoupledEditorBase {}
+export default class DecoupledEditor extends DecoupledEditorBase { }
 
 /* global WIKI */
 
@@ -69,21 +70,21 @@ class LinkToPage extends Plugin {
 	init() {
 		const editor = this.editor;
 
-		editor.ui.componentFactory.add( 'linkToPage', locale => {
-			const view = new ButtonView( locale );
+		editor.ui.componentFactory.add('linkToPage', locale => {
+			const view = new ButtonView(locale);
 
-			view.set( {
+			view.set({
 				label: 'Insert Link to Page',
 				icon: linkToPageIcon,
 				tooltip: true
-			} );
+			});
 
-			view.on( 'execute', () => {
-				WIKI.$emit( 'editorLinkToPage' );
-			} );
+			view.on('execute', () => {
+				WIKI.$emit('editorLinkToPage');
+			});
 
 			return view;
-		} );
+		});
 	}
 }
 
@@ -91,24 +92,45 @@ class InsertAsset extends Plugin {
 	init() {
 		const editor = this.editor;
 
-		editor.ui.componentFactory.add( 'insertAsset', locale => {
-			const view = new ButtonView( locale );
+		editor.ui.componentFactory.add('insertAsset', locale => {
+			const view = new ButtonView(locale);
 
-			view.set( {
+			view.set({
 				label: 'Insert Assets',
 				icon: imageIcon,
 				tooltip: true
-			} );
+			});
 
-			view.on( 'execute', () => {
-				WIKI.$store.set( 'editor/activeModal', 'editorModalMedia' );
-			} );
+			view.on('execute', () => {
+				WIKI.$store.set('editor/activeModal', 'editorModalMedia');
+			});
 
 			return view;
-		} );
+		});
 	}
 }
 
+class InsertOSSAsset extends Plugin {
+	init() {
+		const editor = this.editor;
+
+		editor.ui.componentFactory.add('insertOSSAsset', locale => {
+			const view = new ButtonView(locale);
+
+			view.set({
+				label: 'Insert OSS Assets',
+				icon: imageOss,
+				tooltip: true
+			});
+
+			view.on('execute', () => {
+				WIKI.$store.set('editor/activeModal', 'editorModalOSS');
+			});
+
+			return view;
+		});
+	}
+}
 // Plugins to include in the build.
 DecoupledEditor.builtinPlugins = [
 	Alignment,
@@ -133,6 +155,7 @@ DecoupledEditor.builtinPlugins = [
 	// Indent,
 	// IndentBlock,
 	InsertAsset,
+	InsertOSSAsset,
 	Italic,
 	Link,
 	LinkToPage,
@@ -191,6 +214,7 @@ DecoupledEditor.defaultConfig = {
 			'link',
 			'blockquote',
 			'insertAsset',
+			'insertOSSAsset',
 			'insertTable',
 			'code',
 			'codeBlock',
